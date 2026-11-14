@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pubquiztränaren</title>
+  <meta name="description" content="Träna inför svenska pubquiz med flashcards, spellägen och statistik.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍻</text></svg>">
+  <script>
+    // Sätt tema innan sidan ritas för att undvika blink.
+    try { var t = JSON.parse(localStorage.getItem("pq.settings.v1") || "{}").theme; if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+  </script>
+  <meta name="theme-color" content="#c8610a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/"><span class="brand-mark">🍻</span><span class="brand-text">Pubquiztränaren</span></a>
+    <nav class="nav" aria-label="Huvudmeny">
+      <a href="#/" data-nav="hem">Spela</a>
+      <a href="#/flaggor" data-nav="flaggor">Flaggor</a>
+      <a href="#/huvudstader" data-nav="huvudstader">Huvudstäder</a>
+      <a href="#/statistik" data-nav="statistik">Statistik</a>
+      <a href="#/fragebank" data-nav="fragebank">Frågebank</a>
+    </nav>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="Växla mellan ljust och mörkt tema" title="Ljust/mörkt tema">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M4.6 4.6l1.4 1.4M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"/></svg>
+    </button>
+  </header>
+
+  <main id="view" aria-live="polite"></main>
+  <div class="toast" id="toast" role="status"></div>
+
+  <noscript><p style="padding:24px">Pubquiztränaren behöver JavaScript.</p></noscript>
+
+  <!-- Kärna -->
+  <script src="js/categories.js"></script>
+  <script src="js/bank.js"></script>
+
+  <!-- Frågedata: en fil per kategori. Lägg till egna filer här. -->
+  <script src="data/questions/musik.js"></script>
+  <script src="data/questions/film-tv.js"></script>
+  <script src="data/questions/geografi.js"></script>
+  <script src="data/questions/historia.js"></script>
+  <script src="data/questions/sport.js"></script>
+  <script src="data/questions/mat-dryck.js"></script>
+  <script src="data/questions/kanda-personer.js"></script>
+  <script src="data/questions/sverige-norden.js"></script>
+  <script src="data/questions/vetenskap-natur.js"></script>
+  <script src="data/questions/popkultur.js"></script>
+  <script src="data/questions/aktuellt.js"></script>
+  <script src="data/questions/blandat.js"></script>
+  <script src="data/questions/fordjupning.js"></script>
+  <script src="data/questions/quizkvall.js"></script>
+  <script src="data/questions/internationellt-kultur.js"></script>
+  <script src="data/questions/internationellt-fakta.js"></script>
+  <script src="data/questions/internationellt-2-kultur.js"></script>
+  <script src="data/questions/internationellt-2-fakta.js"></script>
+  <script src="data/questions/onsdagsquizen.js"></script>
+  <script src="data/questions/onsdagsquizen-2.js"></script>
+  <script src="data/questions/onsdagsquizen-3.js"></script>
+  <script src="data/questions/onsdagsquizen-4.js"></script>
+  <script src="data/questions/onsdagsquizen-5.js"></script>
+  <script src="data/questions/onsdagsquizen-6.js"></script>
+  <script src="data/questions/onsdagsquizen-7.js"></script>
+  <script src="data/questions/onsdagsquizen-8.js"></script>
+  <script src="data/questions/onsdagsquizen-9.js"></script>
+  <script src="data/questions/onsdagsquizen-10.js"></script>
+  <script src="data/questions/onsdagsquizen-11.js"></script>
+  <script src="data/questions/onsdagsquizen-12.js"></script>
+  <script src="data/questions/onsdagsquizen-13.js"></script>
+  <script src="data/questions/onsdagsquizen-14.js"></script>
+  <script src="data/questions/onsdagsquizen-15.js"></script>
+  <script src="data/questions/onsdagsquizen-16.js"></script>
+  <script src="data/questions/onsdagsquizen-17.js"></script>
+  <script src="data/questions/onsdagsquizen-18.js"></script>
+  <script src="data/questions/onsdagsquizen-19.js"></script>
+  <script src="data/questions/onsdagsquizen-20.js"></script>
+  <script src="data/questions/onsdagsquizen-21.js"></script>
+  <script src="data/questions/onsdagsquizen-22.js"></script>
+  <script src="data/questions/onsdagsquizen-23.js"></script>
+  <script src="data/questions/onsdagsquizen-24.js"></script>
+  <script src="data/questions/onsdagsquizen-25.js"></script>
+  <script src="data/questions/extramedium-01.js"></script>
+  <script src="data/questions/extramedium-02.js"></script>
+  <script src="data/questions/extramedium-03.js"></script>
+  <script src="data/questions/extramedium-04.js"></script>
+  <script src="data/questions/extramedium-05.js"></script>
+  <script src="data/questions/extramedium-06.js"></script>
+  <script src="data/questions/extramedium-07.js"></script>
+  <script src="data/questions/extramedium-08.js"></script>
+  <script src="data/questions/extramedium-09.js"></script>
+  <script src="data/questions/extramedium-10.js"></script>
+  <script src="data/questions/extramedium-11.js"></script>
+  <script src="data/questions/extramedium-12.js"></script>
+  <script src="data/questions/wikipedia-2015.js"></script>
+  <script src="data/questions/wikipedia-2016.js"></script>
+  <script src="data/questions/wikipedia-2017.js"></script>
+  <script src="data/questions/wikipedia-2018.js"></script>
+  <script src="data/questions/wikipedia-2019.js"></script>
+  <script src="data/questions/wikipedia-2020.js"></script>
+  <script src="data/questions/wikipedia-2021.js"></script>
+  <script src="data/questions/wikipedia-brott.js"></script>
+  <script src="data/questions/wikipedia-2022.js"></script>
+  <script src="data/questions/wikipedia-2023.js"></script>
+  <script src="data/questions/wikipedia-2024.js"></script>
+  <script src="data/questions/onsdagsquizen-26.js"></script>
+  <script src="data/questions/onsdagsquizen-27.js"></script>
+  <script src="data/questions/onsdagsquizen-28.js"></script>
+  <script src="data/questions/onsdagsquizen-29.js"></script>
+  <script src="data/questions/onsdagsquizen-30.js"></script>
+  <script src="data/questions/onsdagsquizen-31.js"></script>
+  <script src="data/questions/onsdagsquizen-32.js"></script>
+  <script src="data/questions/onsdagsquizen-33.js"></script>
+  <script src="data/questions/onsdagsquizen-34.js"></script>
+  <script src="data/questions/onsdagsquizen-35.js"></script>
+  <script src="data/questions/onsdagsquizen-36.js"></script>
+  <script src="data/questions/onsdagsquizen-37.js"></script>
+  <script src="data/questions/onsdagsquizen-38.js"></script>
+  <script src="data/questions/onsdagsquizen-39.js"></script>
+  <script src="data/questions/onsdagsquizen-40.js"></script>
+  <script src="data/questions/onsdagsquizen-41.js"></script>
+  <script src="data/questions/onsdagsquizen-42.js"></script>
+  <script src="data/questions/onsdagsquizen-43.js"></script>
+  <script src="data/questions/onsdagsquizen-44.js"></script>
+  <script src="data/questions/onsdagsquizen-45.js"></script>
+  <script src="data/questions/onsdagsquizen-46.js"></script>
+  <script src="data/questions/onsdagsquizen-47.js"></script>
+  <script src="data/questions/onsdagsquizen-48.js"></script>
+  <script src="data/questions/onsdagsquizen-49.js"></script>
+  <script src="data/questions/onsdagsquizen-50.js"></script>
+  <script src="data/questions/onsdagsquizen-51.js"></script>
+  <script src="data/questions/onsdagsquizen-52.js"></script>
+  <script src="data/questions/onsdagsquizen-53.js"></script>
+  <script src="data/questions/onsdagsquizen-54.js"></script>
+  <script src="data/questions/onsdagsquizen-55.js"></script>
+  <script src="data/questions/onsdagsquizen-56.js"></script>
+  <script src="data/questions/onsdagsquizen-57.js"></script>
+  <script src="data/questions/onsdagsquizen-58.js"></script>
+  <script src="data/questions/onsdagsquizen-59.js"></script>
+  <script src="data/questions/onsdagsquizen-60.js"></script>
+  <script src="data/questions/onsdagsquizen-61.js"></script>
+  <script src="data/questions/onsdagsquizen-62.js"></script>
+  <script src="data/questions/onsdagsquizen-63.js"></script>
+  <script src="data/questions/onsdagsquizen-64.js"></script>
+  <script src="data/questions/onsdagsquizen-65.js"></script>
+  <script src="data/questions/onsdagsquizen-66.js"></script>
+  <script src="data/questions/onsdagsquizen-67.js"></script>
+  <script src="data/questions/onsdagsquizen-68.js"></script>
+  <script src="data/questions/onsdagsquizen-69.js"></script>
+  <script src="data/questions/onsdagsquizen-70.js"></script>
+  <script src="data/questions/onsdagsquizen-71.js"></script>
+  <script src="data/questions/onsdagsquizen-72.js"></script>
+  <script src="data/questions/onsdagsquizen-73.js"></script>
+  <script src="data/questions/onsdagsquizen-74.js"></script>
+  <script src="data/questions/onsdagsquizen-75.js"></script>
+  <script src="data/questions/onsdagsquizen-76.js"></script>
+  <script src="data/questions/onsdagsquizen-77.js"></script>
+  <script src="data/questions/onsdagsquizen-78.js"></script>
+  <script src="data/questions/onsdagsquizen-79.js"></script>
+  <script src="data/questions/onsdagsquizen-80.js"></script>
+  <script src="data/questions/onsdagsquizen-81.js"></script>
+  <script src="data/questions/onsdagsquizen-82.js"></script>
+  <script src="data/questions/onsdagsquizen-83.js"></script>
+  <script src="data/questions/onsdagsquizen-84.js"></script>
+  <script src="data/questions/onsdagsquizen-85.js"></script>
+  <script src="data/questions/onsdagsquizen-86.js"></script>
+  <script src="data/questions/onsdagsquizen-87.js"></script>
+  <script src="data/questions/onsdagsquizen-88.js"></script>
+  <script src="data/questions/onsdagsquizen-89.js"></script>
+  <script src="data/questions/onsdagsquizen-90.js"></script>
+  <script src="data/questions/onsdagsquizen-91.js"></script>
+  <script src="data/questions/onsdagsquizen-92.js"></script>
+  <script src="data/questions/onsdagsquizen-93.js"></script>
+  <script src="data/questions/onsdagsquizen-94.js"></script>
+  <script src="data/questions/onsdagsquizen-95.js"></script>
+  <script src="data/questions/onsdagsquizen-96.js"></script>
+  <script src="data/questions/onsdagsquizen-97.js"></script>
+  <script src="data/questions/onsdagsquizen-98.js"></script>
+  <script src="data/questions/onsdagsquizen-99.js"></script>
+  <script src="data/questions/onsdagsquizen-100.js"></script>
+  <script src="data/questions/onsdagsquizen-101.js"></script>
+  <script src="data/questions/onsdagsquizen-102.js"></script>
+  <script src="data/questions/onsdagsquizen-103.js"></script>
+  <script src="data/questions/onsdagsquizen-104.js"></script>
+  <script src="data/questions/onsdagsquizen-105.js"></script>
+  <script src="data/questions/onsdagsquizen-106.js"></script>
+  <script src="data/questions/p3-dokumentar-1.js"></script>
+  <script src="data/questions/p3-dokumentar-2.js"></script>
+  <script src="data/questions/p3-historia-1.js"></script>
+  <script src="data/questions/p3-historia-2.js"></script>
+  <script src="data/questions/p3-historia-3.js"></script>
+  <script src="data/questions/p3-historia-4.js"></script>
+  <script src="data/questions/p3-id-1.js"></script>
+  <script src="data/questions/p3-id-2.js"></script>
+  <script src="data/questions/p3-id-3.js"></script>
+  <script src="data/questions/sondagsintervjun-1.js"></script>
+  <script src="data/questions/sondagsintervjun-2.js"></script>
+  <script src="data/questions/extramedium-13.js"></script>
+  <script src="data/questions/extramedium-14.js"></script>
+  <script src="data/questions/extramedium-15.js"></script>
+  <script src="data/questions/extramedium-16.js"></script>
+  <script src="data/questions/extramedium-17.js"></script>
+  <script src="data/questions/extramedium-18.js"></script>
+  <script src="data/questions/extramedium-19.js"></script>
+  <script src="data/questions/extramedium-20.js"></script>
+  <script src="data/questions/extramedium-21.js"></script>
+  <script src="data/questions/extramedium-22.js"></script>
+  <script src="data/questions/extramedium-23.js"></script>
+  <script src="data/questions/extramedium-24.js"></script>
+  <script src="data/questions/extramedium-25.js"></script>
+  <script src="data/egna-fragor.js"></script>
+
+  <!-- Mer om svaret: längre bakgrund till frågorna ovan -->
+  <script src="data/mer-om-svaret/musik.js"></script>
+  <script src="data/mer-om-svaret/film-tv.js"></script>
+  <script src="data/mer-om-svaret/geografi.js"></script>
+  <script src="data/mer-om-svaret/historia.js"></script>
+  <script src="data/mer-om-svaret/sport.js"></script>
+  <script src="data/mer-om-svaret/mat-dryck.js"></script>
+  <script src="data/mer-om-svaret/kanda-personer.js"></script>
+  <script src="data/mer-om-svaret/sverige-norden.js"></script>
+  <script src="data/mer-om-svaret/vetenskap-natur.js"></script>
+  <script src="data/mer-om-svaret/popkultur.js"></script>
+  <script src="data/mer-om-svaret/aktuellt.js"></script>
+  <script src="data/mer-om-svaret/blandat.js"></script>
+  <script src="data/mer-om-svaret/fordjupning.js"></script>
+  <script src="data/mer-om-svaret/quizkvall.js"></script>
+  <script src="js/dagsquiz.js"></script>
+  <script src="data/dagsquiz.js"></script>
+  <script src="data/spotify.js"></script>
+  <script src="data/bilder.js"></script>
+
+  <!-- Logik och gränssnitt -->
+  <script src="js/store.js"></script>
+  <script src="js/sync.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/research.js"></script>
+  <script src="data/flaggor.js"></script>
+  <script src="js/flaggor.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Offline-stöd som installerbar app (hoppar över lokal utveckling så att ändringar syns direkt).
+    if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol) && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) {
+      window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+    }
+  </script>
+</body>
+</html>
